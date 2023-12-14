@@ -5,7 +5,7 @@ import streamlit as st  # 🎈 data web app development
 
 st.set_page_config(
     page_title="Project Data Science Dashboard",
-    page_icon="🧊",
+    page_icon="📊",
     layout="wide",
 )
 
@@ -156,7 +156,7 @@ with tab2:
 
     if timeframe == "Weekly WO":
         # first day of the week
-        df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index()
+        df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index(drop=True)
         df_total = df_total.resample("W").sum().round(2).reset_index()
     elif timeframe == "Monthly WO":
         # first day of the month
