@@ -34,12 +34,12 @@ with tab1:
 
     if timeframe == "Weekly":
         # first day of the week
-        df = df.resample("W").sum().round(2)
+        df = df.resample("W").sum().round(2).reset_index()
     elif timeframe == "Monthly":
         # first day of the month
-        df = df.resample("MS").sum().round(2)
+        df = df.resample("MS").sum().round(2).reset_index()
     elif timeframe == "Yearly":
-        df = df.resample("YS").sum().round(2)
+        df = df.resample("YS").sum().round(2).reset_index()
 
     # creating a single-element container
     sales_stock1 = st.empty()
