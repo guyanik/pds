@@ -34,7 +34,7 @@ with tab1:
 
     if timeframe == "Weekly":
         # first day of the week
-        df = df.resample("W").sum().round(2).reset_index()
+        df = df.resample("W").sum().round(2).reindex(df.index, method="pad")
     elif timeframe == "Monthly":
         # first day of the month
         df = df.resample("MS").sum().round(2).reset_index()
