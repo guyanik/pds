@@ -156,7 +156,7 @@ with tab2:
 
     if timeframe == "Weekly WO":
         # first day of the week
-        df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index(drop=True)
+        df = df.groupby("LOCUS").resample("W").sum().round(2)
         df_total = df_total.resample("W").sum().round(2)
     elif timeframe == "Monthly WO":
         # first day of the month
@@ -173,7 +173,7 @@ with tab2:
         # scatter plot
         if "All" not in locus:
             df_locus = df[df["LOCUS"].isin(locus)]
-            fig = px.scatter(df_locus, x="Date", y="WOANBL", color="LOCUS", template="plotly_dark")
+            fig = px.scatter(df_locus, x="DATE", y="WOANBL", color="LOCUS", template="plotly_dark")
             fig.update_xaxes(rangeslider_visible=True)
             fig.update_layout(transition_duration=500)
             st.plotly_chart(fig, use_container_width=True)
@@ -190,9 +190,9 @@ with tab2:
 
         with col1:
             date = st.date_input("Select the date", 
-                                min_value=pd.to_datetime("2018-01-01", format="%Y-%m-%d"), 
-                                max_value=pd.to_datetime("2023-12-31", format="%Y-%m-%d"), 
-                                value=pd.to_datetime("2023-01-01", format="%Y-%m-%d"),
+                                min_value=pd.to_datetime("2018-01-01"), 
+                                max_value=pd.to_datetime("2023-12-31"), 
+                                value=pd.to_datetime("2023-01-01"),
                                 key="wo_date")
             # bar plot with locuses for the selected date
             fig = px.bar(df[df["DATE"] == str(date)], x="LOCUS", y="WOANBL", template="plotly_dark")
