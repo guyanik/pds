@@ -50,6 +50,8 @@ with tab1:
                             max_value=pd.to_datetime("2023-12-31"), 
                             value=df.index[-1])
 
+        print(date)
+        print(df.index.to_list())
         if date in df.index.to_list():
             # create columns
             seconds_spent, user_count, quantity, volume, weight, price = st.columns(6)
