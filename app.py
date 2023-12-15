@@ -156,7 +156,7 @@ with tab2:
 
     if timeframe == "Weekly WO":
         # first day of the week
-        df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index(drop=True)
+        df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index().set_index("DATE")
         df_total = df_total.resample("W").sum().round(2).reset_index(drop=True)
     elif timeframe == "Monthly WO":
         # first day of the month
