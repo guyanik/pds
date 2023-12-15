@@ -156,15 +156,15 @@ with tab2:
 
     if timeframe == "Weekly WO":
         # first day of the week
-        df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index()
-        df_total = df_total.resample("W").sum().round(2).reset_index()
+        df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index(drop=True)
+        df_total = df_total.resample("W").sum().round(2).reset_index(drop=True)
     elif timeframe == "Monthly WO":
         # first day of the month
-        df = df.groupby("LOCUS").resample("MS").sum().round(2).reset_index()
-        df_total = df_total.resample("MS").sum().round(2).reset_index()
+        df = df.groupby("LOCUS").resample("MS").sum().round(2).reset_index(drop=True)
+        df_total = df_total.resample("MS").sum().round(2).reset_index(drop=True)
     elif timeframe == "Yearly WO":
-        df = df.groupby("LOCUS").resample("YS").sum().round(2).reset_index()
-        df_total = df_total.resample("YS").sum().round(2).reset_index()
+        df = df.groupby("LOCUS").resample("YS").sum().round(2).reset_index(drop=True)
+        df_total = df_total.resample("YS").sum().round(2).reset_index(drop=True)
     
     wo1 = st.empty()
 
@@ -173,7 +173,7 @@ with tab2:
         # scatter plot
         if "All" not in locus:
             df_locus = df[df["LOCUS"].isin(locus)]
-            fig = px.scatter(df_locus, x="DATE", y="WOANBL", color="LOCUS", template="plotly_dark")
+            fig = px.scatter(df_locus, x=df_locus.index, y="WOANBL", color="LOCUS", template="plotly_dark")
             fig.update_xaxes(rangeslider_visible=True)
             fig.update_layout(transition_duration=500)
             st.plotly_chart(fig, use_container_width=True)
