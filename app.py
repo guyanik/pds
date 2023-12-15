@@ -138,8 +138,10 @@ with tab1:
 with tab2:
     df = pd.read_csv("daily_wo.csv")
     df_total = df.drop(columns=["LOCUS"]).groupby("DATE").sum().round(2).reset_index()
-    df.index = pd.to_datetime(df["DATE"])
-    df_total.index = pd.to_datetime(df_total['DATE'])
+    df["DATE"] = pd.to_datetime(df["DATE"])
+    df.index = df["DATE"]
+    df_total["DATE"] = pd.to_datetime(df_total['DATE'])
+    df_total.index = df_total['DATE']
 
     # top-level filters
     col1, col2, col3 = st.columns(3)
