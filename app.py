@@ -178,7 +178,7 @@ with tab2:
             fig.update_layout(transition_duration=500)
             st.plotly_chart(fig, use_container_width=True)
         else:
-            fig = px.scatter(df_total, x=df_total.index, y="WOANBL", template="plotly_dark")
+            fig = px.scatter(df_total, x="DATE", y="WOANBL", template="plotly_dark")
             fig.update_xaxes(rangeslider_visible=True)
             fig.update_layout(transition_duration=500)
             st.plotly_chart(fig, use_container_width=True)
@@ -252,7 +252,7 @@ with tab3:
             fig.update_layout(transition_duration=500)
             st.plotly_chart(fig, use_container_width=True)
         else:
-            fig = px.scatter(df_total, x=df_total.index, y=var, template="plotly_dark")
+            fig = px.scatter(df_total, x="DATE", y=var, template="plotly_dark")
             fig.update_xaxes(rangeslider_visible=True)
             fig.update_layout(transition_duration=500)
             st.plotly_chart(fig, use_container_width=True)
