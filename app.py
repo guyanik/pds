@@ -14,7 +14,7 @@ tab1, tab2, tab3, tab4 = st.tabs(["Sales Stock", "WO", "WL", "Forecast"])
 with tab1:
     # read csv
     df = pd.read_csv("daily_total.csv")
-    df.index = pd.to_datetime(df["DATE"])
+    df.index = pd.to_datetime(df["DATE"], format="%Y-%m-%d")
     df["HOURS SPENT"] = df["SECONDSSPENT"] / 3600
     df["USER COUNT"] = df["USERCOUNT"]
     df = df.drop(columns=["DATE", "SECONDSSPENT", "USERCOUNT"])
@@ -52,7 +52,7 @@ with tab1:
 
         print(date)
         print(df.index.to_list())
-        if date in df.index.to_list():
+        if pd.to_datetime(date) in df.index.to_list():
             # create columns
             seconds_spent, user_count, quantity, volume, weight, price = st.columns(6)
 
