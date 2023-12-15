@@ -139,7 +139,11 @@ with tab2:
     df = pd.read_csv("daily_wo.csv")
     df_total = df.drop(columns=["LOCUS"]).groupby("DATE").sum().round(2).reset_index()
     df.index = pd.to_datetime(df["DATE"])
+    # rename date column
+    df = df.rename(columns={"DATE": "Date"})
     df_total.index = pd.to_datetime(df_total['DATE'])
+    # rename date column
+    df_total = df_total.rename(columns={"DATE": "Date"})
 
     # top-level filters
     col1, col2, col3 = st.columns(3)
@@ -156,15 +160,15 @@ with tab2:
 
     if timeframe == "Weekly WO":
         # first day of the week
-        df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index().set_index("DATE")
-        df_total = df_total.resample("W").sum().round(2).reset_index(drop=True)
+        df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index()
+        df_total = df_total.resample("W").sum().round(2).reset_index()
     elif timeframe == "Monthly WO":
         # first day of the month
-        df = df.groupby("LOCUS").resample("MS").sum().round(2).reset_index(drop=True)
-        df_total = df_total.resample("MS").sum().round(2).reset_index(drop=True)
+        df = df.groupby("LOCUS").resample("MS").sum().round(2).reset_index()
+        df_total = df_total.resample("MS").sum().round(2).reset_index()
     elif timeframe == "Yearly WO":
-        df = df.groupby("LOCUS").resample("YS").sum().round(2).reset_index(drop=True)
-        df_total = df_total.resample("YS").sum().round(2).reset_index(drop=True)
+        df = df.groupby("LOCUS").resample("YS").sum().round(2).reset_index()
+        df_total = df_total.resample("YS").sum().round(2).reset_index()
     
     wo1 = st.empty()
 
@@ -173,7 +177,7 @@ with tab2:
         # scatter plot
         if "All" not in locus:
             df_locus = df[df["LOCUS"].isin(locus)]
-            fig = px.scatter(df_locus, x=df_locus.index, y="WOANBL", color="LOCUS", template="plotly_dark")
+            fig = px.scatter(df_locus, x="Date", y="WOANBL", color="LOCUS", template="plotly_dark")
             fig.update_xaxes(rangeslider_visible=True)
             fig.update_layout(transition_duration=500)
             st.plotly_chart(fig, use_container_width=True)
@@ -195,7 +199,7 @@ with tab2:
                                 value=pd.to_datetime("2023-01-01"),
                                 key="wo_date")
             # bar plot with locuses for the selected date
-            fig = px.bar(df[df["DATE"] == str(date)], x="LOCUS", y="WOANBL", template="plotly_dark")
+            fig = px.bar(df[df["Date"] == str(date)], x="LOCUS", y="WOANBL", template="plotly_dark")
             fig.update_layout(transition_duration=500)
             st.plotly_chart(fig, use_container_width=True)
 
@@ -203,10 +207,10 @@ with tab2:
             col1, col2 = st.columns(2)
             with col1:                
                 st.markdown("### Detailed Data View")
-                st.dataframe(df.set_index('DATE'))
+                st.dataframe(df.set_index('Date'))
             with col2:
                 st.markdown("### Detailed Data View (Total)")
-                st.dataframe(df_total.set_index('DATE'))
+                st.dataframe(df_total.set_index('Date'))
 
 with tab3:
     df = pd.read_csv("daily_wl.csv")
