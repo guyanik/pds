@@ -14,7 +14,7 @@ tab1, tab2, tab3, tab4 = st.tabs(["Sales Stock", "WO", "WL", "Forecast"])
 with tab1:
     # read csv
     df = pd.read_csv("daily_total.csv")
-    df.index = pd.to_datetime(df["DATE"], format="%Y-%m-%d")
+    df.index = pd.to_datetime(df["DATE"])
     df["HOURS SPENT"] = df["SECONDSSPENT"] / 3600
     df["USER COUNT"] = df["USERCOUNT"]
     df = df.drop(columns=["DATE", "SECONDSSPENT", "USERCOUNT"])
@@ -34,20 +34,20 @@ with tab1:
 
     if timeframe == "Weekly":
         # first day of the week
-        df = df.resample("W").sum().round(2).reindex(df.index, method="pad")
+        df = df.resample("W").sum().round(2)
     elif timeframe == "Monthly":
         # first day of the month
-        df = df.resample("MS").sum().round(2).reset_index()
+        df = df.resample("MS").sum().round(2)
     elif timeframe == "Yearly":
-        df = df.resample("YS").sum().round(2).reset_index()
+        df = df.resample("YS").sum().round(2)
 
     # creating a single-element container
     sales_stock1 = st.empty()
 
     with sales_stock1.container():
         date = st.date_input("Select the date", 
-                            min_value=pd.to_datetime("2018-01-01", format="%Y-%m-%d"), 
-                            max_value=pd.to_datetime("2023-12-31", format="%Y-%m-%d"), 
+                            min_value=pd.to_datetime("2018-01-01"), 
+                            max_value=pd.to_datetime("2023-12-31"), 
                             value=df.index[-1])
 
         if date in df.index.to_list():
