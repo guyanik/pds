@@ -19,7 +19,6 @@ with tab1:
     df["USER COUNT"] = df["USERCOUNT"]
     df = df.drop(columns=["DATE", "SECONDSSPENT", "USERCOUNT"])
     df = df[["HOURS SPENT", "USER COUNT", "QUANTITY", "VOLUME", "WEIGHT", "PRICE"]]
-    df = df.round(2)
 
     # top-level filters
     col1, col2, col3 = st.columns(3)
@@ -50,9 +49,8 @@ with tab1:
                             max_value=pd.to_datetime("2023-12-31"), 
                             value=df.index[-1])
 
-        print(date)
-        print(df.index.to_list())
-        if pd.to_datetime(date) in df.index.to_list():
+        date = pd.Timestamp(date)
+        if date in df.index.to_list():
             # create columns
             seconds_spent, user_count, quantity, volume, weight, price = st.columns(6)
 
