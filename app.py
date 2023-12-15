@@ -138,10 +138,8 @@ with tab1:
 with tab2:
     df = pd.read_csv("daily_wo.csv")
     df_total = df.drop(columns=["LOCUS"]).groupby("DATE").sum().round(2).reset_index()
-    df["DATE"] = pd.to_datetime(df["DATE"])
-    df.index = df["DATE"]
-    df_total["DATE"] = pd.to_datetime(df_total['DATE'])
-    df_total.index = df_total['DATE']
+    df.index = pd.to_datetime(df["DATE"])
+    df_total.index = pd.to_datetime(df_total['DATE'])
 
     # top-level filters
     col1, col2, col3 = st.columns(3)
@@ -154,19 +152,19 @@ with tab2:
         # choose daily, weekly, monthly, yearly
         timeframe = st.selectbox("Select the timeframe", ["Daily WO", "Weekly WO", "Monthly WO", "Yearly WO"])
     
-    locus = st.multiselect("Select the locus", df["LOCUS"].unique().tolist() + ["All"], default=["All"])
+    locus = st.multiselect("Select the locus", ["All"] + df["LOCUS"].unique().tolist(), default=["All"])
 
     if timeframe == "Weekly WO":
         # first day of the week
-        df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index(drop=True)
-        df_total = df_total.resample("W").sum().round(2).reset_index(drop=True)
+        df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index()
+        df_total = df_total.resample("W").sum().round(2).reset_index()
     elif timeframe == "Monthly WO":
         # first day of the month
-        df = df.groupby("LOCUS").resample("MS").sum().round(2).reset_index(drop=True)
-        df_total = df_total.resample("MS").sum().round(2).reset_index(drop=True)
+        df = df.groupby("LOCUS").resample("MS").sum().round(2).reset_index()
+        df_total = df_total.resample("MS").sum().round(2).reset_index()
     elif timeframe == "Yearly WO":
-        df = df.groupby("LOCUS").resample("YS").sum().round(2).reset_index(drop=True)
-        df_total = df_total.resample("YS").sum().round(2).reset_index(drop=True)
+        df = df.groupby("LOCUS").resample("YS").sum().round(2).reset_index()
+        df_total = df_total.resample("YS").sum().round(2).reset_index()
     
     wo1 = st.empty()
 
@@ -228,7 +226,7 @@ with tab3:
         timeframe = st.selectbox("Select the timeframe", ["Daily WL", "Weekly WL", "Monthly WL", "Yearly WL"])
     
     var = st.selectbox("Select the variable", ["ORDER", "PRICE"])
-    locus = st.multiselect("Select the locus", df["LOCUS"].unique().tolist() + ["All"], default=["All"])
+    locus = st.multiselect("Select the locus", ["All"] + df["LOCUS"].unique().tolist(), default=["All"])
 
     if timeframe == "Weekly WL":
         # first day of the week
