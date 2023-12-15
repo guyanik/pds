@@ -46,11 +46,11 @@ with tab1:
 
     with sales_stock1.container():
         date = st.date_input("Select the date", 
-                            min_value=pd.to_datetime("2018-01-01"), 
-                            max_value=pd.to_datetime("2023-12-31"), 
+                            min_value=pd.to_datetime("2018-01-01", format="%Y-%m-%d"), 
+                            max_value=pd.to_datetime("2023-12-31", format="%Y-%m-%d"), 
                             value=df.index[-1])
 
-        if date in df["DATE"].to_list():
+        if date in df.index.to_list():
             # create columns
             seconds_spent, user_count, quantity, volume, weight, price = st.columns(6)
 
@@ -138,12 +138,8 @@ with tab1:
 with tab2:
     df = pd.read_csv("daily_wo.csv")
     df_total = df.drop(columns=["LOCUS"]).groupby("DATE").sum().round(2).reset_index()
-    df.index = pd.to_datetime(df["DATE"])
-    # rename date column
-    df = df.rename(columns={"DATE": "Date"})
-    df_total.index = pd.to_datetime(df_total['DATE'])
-    # rename date column
-    df_total = df_total.rename(columns={"DATE": "Date"})
+    df.index = pd.to_datetime(df["DATE"], format="%Y-%m-%d")
+    df_total.index = pd.to_datetime(df_total['DATE'], format="%Y-%m-%d")
 
     # top-level filters
     col1, col2, col3 = st.columns(3)
@@ -194,12 +190,12 @@ with tab2:
 
         with col1:
             date = st.date_input("Select the date", 
-                                min_value=pd.to_datetime("2018-01-01"), 
-                                max_value=pd.to_datetime("2023-12-31"), 
-                                value=pd.to_datetime("2023-01-01"),
+                                min_value=pd.to_datetime("2018-01-01", format="%Y-%m-%d"), 
+                                max_value=pd.to_datetime("2023-12-31", format="%Y-%m-%d"), 
+                                value=pd.to_datetime("2023-01-01", format="%Y-%m-%d"),
                                 key="wo_date")
             # bar plot with locuses for the selected date
-            fig = px.bar(df[df["Date"] == str(date)], x="LOCUS", y="WOANBL", template="plotly_dark")
+            fig = px.bar(df[df["DATE"] == str(date)], x="LOCUS", y="WOANBL", template="plotly_dark")
             fig.update_layout(transition_duration=500)
             st.plotly_chart(fig, use_container_width=True)
 
@@ -207,10 +203,10 @@ with tab2:
             col1, col2 = st.columns(2)
             with col1:                
                 st.markdown("### Detailed Data View")
-                st.dataframe(df.set_index('Date'))
+                st.dataframe(df.set_index('DATE'))
             with col2:
                 st.markdown("### Detailed Data View (Total)")
-                st.dataframe(df_total.set_index('Date'))
+                st.dataframe(df_total.set_index('DATE'))
 
 with tab3:
     df = pd.read_csv("daily_wl.csv")
