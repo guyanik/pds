@@ -50,7 +50,7 @@ with tab1:
                             max_value=pd.to_datetime("2023-12-31"), 
                             value=df.index[-1])
 
-        if date in df.index.to_list():
+        if date in df["DATE"].to_list():
             # create columns
             seconds_spent, user_count, quantity, volume, weight, price = st.columns(6)
 
@@ -161,14 +161,14 @@ with tab2:
     if timeframe == "Weekly WO":
         # first day of the week
         df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index(drop=True)
-        df_total = df_total.resample("W").sum().round(2).reset_index(drop=True)
+        df_total = df_total.resample("W").sum().round(2)
     elif timeframe == "Monthly WO":
         # first day of the month
         df = df.groupby("LOCUS").resample("MS").sum().round(2).reset_index(drop=True)
-        df_total = df_total.resample("MS").sum().round(2).reset_index(drop=True)
+        df_total = df_total.resample("MS").sum().round(2)
     elif timeframe == "Yearly WO":
         df = df.groupby("LOCUS").resample("YS").sum().round(2).reset_index(drop=True)
-        df_total = df_total.resample("YS").sum().round(2).reset_index(drop=True)
+        df_total = df_total.resample("YS").sum().round(2)
     
     wo1 = st.empty()
 
