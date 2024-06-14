@@ -156,14 +156,14 @@ with tab2:
 
     if timeframe == "Weekly WO":
         # first day of the week
-        df = df.groupby("LOCUS").resample("W").sum().round(2).drop(columns=["DATE", 'LOCUS']).reset_index()
+        df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index()
         df_total = df_total.resample("W").sum().round(2).drop(columns=["DATE"]).reset_index()
     elif timeframe == "Monthly WO":
         # first day of the month
-        df = df.groupby("LOCUS").resample("MS").sum().drop(columns=["DATE", 'LOCUS']).round(2).reset_index()
+        df = df.groupby("LOCUS").resample("MS").sum().round(2).reset_index()
         df_total = df_total.resample("MS").sum().round(2).drop(columns=["DATE"]).reset_index()
     elif timeframe == "Yearly WO":
-        df = df.groupby("LOCUS").resample("YS").sum().round(2).drop(columns=["DATE", 'LOCUS']).reset_index()
+        df = df.groupby("LOCUS").resample("YS").sum().round(2).reset_index()
         df_total = df_total.resample("YS").sum().round(2).drop(columns=["DATE"]).reset_index()
     
     wo1 = st.empty()
@@ -230,14 +230,14 @@ with tab3:
 
     if timeframe == "Weekly WL":
         # first day of the week
-        df = df.groupby("LOCUS").resample("W").sum().round(2).drop(columns=["DATE", 'LOCUS']).reset_index()
+        df = df.groupby("LOCUS").resample("W").sum().round(2).reset_index()
         df_total = df_total.resample("W").sum().round(2).drop(columns=["DATE"]).reset_index()
     elif timeframe == "Monthly WL":
         # first day of the month
-        df = df.groupby("LOCUS").resample("MS").sum().round(2).drop(columns=["DATE", 'LOCUS']).reset_index()
+        df = df.groupby("LOCUS").resample("MS").sum().round(2).reset_index()
         df_total = df_total.resample("MS").sum().round(2).drop(columns=["DATE"]).reset_index()
     elif timeframe == "Yearly WL":
-        df = df.groupby("LOCUS").resample("YS").sum().round(2).drop(columns=["DATE", 'LOCUS']).reset_index()
+        df = df.groupby("LOCUS").resample("YS").sum().round(2).reset_index()
         df_total = df_total.resample("YS").sum().round(2).drop(columns=["DATE"]).reset_index()
     
     wl1 = st.empty()
